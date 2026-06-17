@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 4.0)
+project(cpp-uws-redis-demo LANGUAGES CXX)
+set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++")
+set(CMAKE_CXX_FLAGS "-nostdinc++ -isystem /usr/include/c++/14 -isystem /usr/include/x86_64-linux-gnu/c++/14")
+
+# Define executable
+	add_executable(cpp-uws-redis-demo)
+	target_compile_features(cpp-uws-redis-demo PRIVATE cxx_std_23)
+	target_sources(cpp-uws-redis-demo
+		PRIVATE
+		src/main.cpp
+	)
+	target_include_directories(cpp-uws-redis-demo
+		PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/src
+	)
+
+# Libraries - include uWebsockets and redis-plus-plus
+	find_package(redis++ CONFIG REQUIRED)
+	target_link_libraries(cpp-uws-redis-demo PRIVATE redis++::redis++_static)
+	find_package(unofficial-uwebsockets CONFIG REQUIRED)
+	target_link_libraries(cpp-uws-redis-demo PRIVATE unofficial::uwebsockets::uwebsockets)
+
+	set_target_properties(cpp-uws-redis-demo PROPERTIES OUTPUT_NAME "app")
