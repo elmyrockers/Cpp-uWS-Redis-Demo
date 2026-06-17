@@ -41,3 +41,4 @@
 *.dwo
 
 /vcpkg_installed/
+/build/
