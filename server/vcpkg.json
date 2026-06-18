@@ -1,0 +1,8 @@
+{
+  "name": "cpp-uws-redis-demo",
+  "version": "0.1.0",
+  "dependencies": [
+    "redis-plus-plus",
+    "uwebsockets"
+  ]
+}
