@@ -12,7 +12,10 @@ func main() {
             Views: engine,
         })
 
-    // Render view file
+    // Route for static files
+        app.Static("/", "./public")
+
+    // Routes for view
         app.Get("/", func(c fiber.Ctx) error {
             return c.Render("index", fiber.Map{
                 "Username": "elmyrockers",
