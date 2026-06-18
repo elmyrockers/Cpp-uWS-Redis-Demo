@@ -3,6 +3,7 @@ package main
 import (
     "github.com/gofiber/fiber/v3"
     "github.com/gofiber/template/html/v3"
+    "net/http"
 )
 
 func main() {
@@ -13,7 +14,7 @@ func main() {
         })
 
     // Route for static files
-        app.Static("/", "./public")
+        app.StaticFS("/", http.Dir("./public"))
 
     // Routes for view
         app.Get("/", func(c fiber.Ctx) error {
