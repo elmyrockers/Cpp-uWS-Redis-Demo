@@ -1,143 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Public Chatroom</title>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Public Chatroom</title>
 
-	<script src="https://cdn.tailwindcss.com"></script>
-</head>
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
 
-<body class="h-screen bg-slate-100">
+	<body class="h-screen bg-slate-100">
+		<div class="flex h-full">
 
-<div class="flex h-full">
-
-	<!-- ===================== SIDEBAR ===================== -->
-	<aside class="w-72 bg-slate-900 text-white flex flex-col">
-
-		<!-- Header -->
-		<div class="border-b border-slate-700 p-5">
-			<h1 class="text-xl font-bold">💬 Public Chat</h1>
-			<p class="text-sm text-slate-400 mt-1">18 users online</p>
-		</div>
-
-		<!-- Users -->
-		<div class="flex-1 overflow-y-auto">
-			<h2 class="px-5 py-3 text-xs uppercase tracking-wider text-slate-400">
-				Online Users
-			</h2>
-			<ul class="space-y-1">
-				<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
-					<span class="h-2 w-2 rounded-full bg-green-500"></span>
-					Elmyrockers
-				</li>
-
-				<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
-					<span class="h-2 w-2 rounded-full bg-green-500"></span>
-					Ahmad
-				</li>
-
-				<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
-					<span class="h-2 w-2 rounded-full bg-green-500"></span>
-					Alia
-				</li>
-			</ul>
-		</div>
-
-		<!-- Typing indicator -->
-		<div class="border-t border-slate-700 p-4 text-sm text-slate-300">
-			<span class="font-semibold text-white">Elmyrockers</span>
-			is typing
-			<span class="inline-flex gap-1 ml-1">
-				<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce"></span>
-				<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:150ms]"></span>
-				<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:300ms]"></span>
-			</span>
-		</div>
-	</aside>
-
-	<!-- ===================== CHAT AREA ===================== -->
-	<main class="flex flex-1 flex-col">
-
-		<!-- Header -->
-		<header class="border-b bg-white px-6 py-4 shadow-sm">
-			<h2 class="text-lg font-semibold">Public Chatroom</h2>
-		</header>
-
-		<!-- MESSAGES -->
-		<div class="flex-1 overflow-y-auto p-5 space-y-4">
-
-			<!-- MESSAGE -->
-			<div class="space-y-1">
-				<!-- top row -->
-					<span class="font-semibold text-blue-600">Ahmad</span>
-				<!-- message bubble -->
-					<div class="ml-5">
-						<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
-							<span>Hello everyone 👋</span>
-							<span class="text-[10px] text-slate-400 whitespace-nowrap">10:21am</span>
-						</div>
-					</div>
-					<div class="ml-5">
-						<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
-							<span>Test</span>
-							<span class="text-[10px] text-slate-400 whitespace-nowrap">10:22am</span>
-						</div>
-					</div>
-			</div>
-			
-
-
-			<!-- MESSAGE -->
-			<div class="space-y-1">
-				<span class="font-semibold text-emerald-600">Elmyrockers</span>
-				<div class="ml-5">
-					<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
-						<span>Hi Ahmad! Welcome to the chatroom.</span>
-						<span class="text-[10px] text-slate-400 whitespace-nowrap">10:23am</span>
-					</div>
+			<!-- ===================== SIDEBAR ===================== -->
+			<aside class="w-72 bg-slate-900 text-white flex flex-col">
+				<!-- Header -->
+				<div class="border-b border-slate-700 p-5">
+					<h1 class="text-xl font-bold">💬 Public Chat</h1>
+					<p class="text-sm text-slate-400 mt-1">18 users online</p>
 				</div>
-			</div>
+				<!-- Users -->
+				<div class="flex-1 overflow-y-auto">
+					<h2 class="px-5 py-3 text-xs uppercase tracking-wider text-slate-400">
+						Online Users
+					</h2>
+					<ul class="space-y-1">
+						<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
+							<span class="h-2 w-2 rounded-full bg-green-500"></span>
+							Elmyrockers
+						</li>
+						<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
+							<span class="h-2 w-2 rounded-full bg-green-500"></span>
+							Ahmad
+						</li>
 
-			<!-- MESSAGE -->
-			<div class="space-y-1">
-				<span class="font-semibold text-purple-600">Alia</span>
-				<div class="ml-5">
-					<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
-						<span>This looks much more like a real chat app 👍</span>
-						<span class="text-[10px] text-slate-400 whitespace-nowrap">10:23am</span>
-					</div>
+						<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
+							<span class="h-2 w-2 rounded-full bg-green-500"></span>
+							Alia
+						</li>
+					</ul>
 				</div>
-			</div>
+				<!-- Typing indicator -->
+				<div class="border-t border-slate-700 p-4 text-sm text-slate-300">
+					<span class="font-semibold text-white">Elmyrockers</span>
+					is typing
+					<span class="inline-flex gap-1 ml-1">
+						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce"></span>
+						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:150ms]"></span>
+						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:300ms]"></span>
+					</span>
+				</div>
+			</aside>
+
+			<!-- ===================== CHAT AREA ===================== -->
+			<main class="flex flex-1 flex-col">
+				<!-- Header -->
+					<header class="border-b bg-white px-6 py-4 shadow-sm">
+						<h2 class="text-lg font-semibold">Public Chatroom</h2>
+					</header>
+				<!-- MESSAGES -->
+					<div class="flex-1 overflow-y-auto p-5 space-y-4">
+						<!-- MESSAGE -->
+							<div class="space-y-1">
+								<!-- top row -->
+									<span class="font-semibold text-blue-600">Ahmad</span>
+								<!-- message bubble -->
+									<div class="ml-5">
+										<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
+											<span>Hello everyone 👋</span>
+											<span class="text-[10px] text-slate-400 whitespace-nowrap">10:21am</span>
+										</div>
+									</div>
+									<div class="ml-5">
+										<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
+											<span>Test</span>
+											<span class="text-[10px] text-slate-400 whitespace-nowrap">10:22am</span>
+										</div>
+									</div>
+							</div>
+						<!-- MESSAGE -->
+							<div class="space-y-1">
+								<span class="font-semibold text-emerald-600">Elmyrockers</span>
+								<div class="ml-5">
+									<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
+										<span>Hi Ahmad! Welcome to the chatroom.</span>
+										<span class="text-[10px] text-slate-400 whitespace-nowrap">10:23am</span>
+									</div>
+								</div>
+							</div>
+						<!-- MESSAGE -->
+							<div class="space-y-1">
+								<span class="font-semibold text-purple-600">Alia</span>
+								<div class="ml-5">
+									<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
+										<span>This looks much more like a real chat app 👍</span>
+										<span class="text-[10px] text-slate-400 whitespace-nowrap">10:23am</span>
+									</div>
+								</div>
+							</div>
+					</div>
+				
+				<!-- Typing preview (chat area) -->
+					<div class="pl-5 py-2 text-sm text-slate-500 flex items-center gap-2">
+					    <span class="italic font-semibold text-slate-600">Elmyrockers</span>
+					    <span class="italic -ml-0.5">is typing</span>
+					    <span class="flex gap-1 relative top-0.5">
+					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
+					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
+					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:300ms]"></span>
+					    </span>
+					</div>
+
+				<!-- Input -->
+					<form class="border-t bg-white p-4" method="post" onsubmit="return false">
+						<div class="flex gap-3">
+							<input
+								type="text"
+								placeholder="Type a message..."
+								autofocus
+								class="flex-1 rounded-lg border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+							<button class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">Send</button>
+						</div>
+					</form>
+			</main>
 
 		</div>
-		
-		<!-- Typing preview (chat area) -->
-			<div class="pl-5 py-2 text-sm text-slate-500 flex items-center gap-2">
-			    <span class="italic font-semibold text-slate-600">Elmyrockers</span>
-			    <span class="italic -ml-0.5">is typing</span>
-			    <span class="flex gap-1 relative top-0.5">
-			        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
-			        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
-			        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:300ms]"></span>
-			    </span>
-			</div>
-
-		<!-- Input -->
-		<form class="border-t bg-white p-4" method="post" onsubmit="return false">
-			<div class="flex gap-3">
-				<input
-					type="text"
-					placeholder="Type a message..."
-					autofocus
-					class="flex-1 rounded-lg border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-				<button class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">Send</button>
-			</div>
-		</form>
-
-	</main>
-
-</div>
-
-</body>
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+	</body>
 </html>
