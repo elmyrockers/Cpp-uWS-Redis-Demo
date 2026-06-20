@@ -11,3 +11,8 @@ A blazing-fast **C++ real-time chat demo** built with the powerful **uWebSockets
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-A42E2B?style=for-the-badge&logo=gitlab&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+
+## Screenshots
+
+![Index page](/chat1.jpg)
+![Chatroom page](/chat2.jpg)
