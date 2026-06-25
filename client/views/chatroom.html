@@ -33,18 +33,19 @@
 					</ul>
 				</div>
 				<!-- Typing indicator -->
-				<div class="border-t border-slate-700 p-4 text-sm text-slate-300">
-					<template x-if="typingUsers.length">
-						<div>
-							<span class="font-semibold text-white" x-text="typingUsers[typingUsers.length-1]"></span>
-							is typing
-							<span class="inline-flex gap-1 ml-1">
-								<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce"></span>
-								<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:150ms]"></span>
-								<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:300ms]"></span>
-							</span>
-						</div>
-					</template>
+				<div class="border-t border-slate-700 p-4 text-sm text-slate-300" x-show="typingUsers.length">
+					<span x-show="typingUsers.length == 1">
+						<span class="font-semibold text-white">1 person</span> is
+					</span>
+					<span x-show="typingUsers.length > 1">
+						<span class="font-semibold text-white"><span x-text="typingUsers.length"></span> people</span> are
+					</span>
+					typing
+					<span class="inline-flex gap-1 ml-1">
+						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce"></span>
+						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:150ms]"></span>
+						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:300ms]"></span>
+					</span>
 				</div>
 			</aside>
 
@@ -97,9 +98,12 @@
 					</div>
 				
 				<!-- Typing preview (chat area) -->
-					<div class="pl-5 py-2 text-sm text-slate-500 flex items-center gap-2">
-					    <span class="italic font-semibold text-slate-600">Elmyrockers</span>
-					    <span class="italic -ml-0.5">is typing</span>
+					<div class="pl-5 py-2 text-sm text-slate-500 flex items-center gap-2" x-show="typingUsers.length">
+					    <span class="italic font-semibold text-slate-600">
+					    	Elmyrockers
+					    </span>
+					    <span class="italic -ml-0.5" x-show="typingUsers.length == 1">is typing</span>
+					    <span class="italic -ml-0.5" x-show="typingUsers.length > 1">are typing</span>
 					    <span class="flex gap-1 relative top-0.5">
 					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
 					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
