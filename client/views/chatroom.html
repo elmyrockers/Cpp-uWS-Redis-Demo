@@ -9,14 +9,14 @@
 	</head>
 
 	<body class="h-screen bg-slate-100">
-		<div class="flex h-full">
+		<div x-data="app" class="flex h-full">
 
 			<!-- ===================== SIDEBAR ===================== -->
 			<aside class="w-72 bg-slate-900 text-white flex flex-col">
 				<!-- Header -->
 				<div class="border-b border-slate-700 p-5">
 					<h1 class="text-xl font-bold">💬 Public Chat</h1>
-					<p class="text-sm text-slate-400 mt-1">18 users online</p>
+					<p class="text-sm text-slate-400 mt-1 ml-1"><span x-text="onlineUsers.length"></span> users online</p>
 				</div>
 				<!-- Users -->
 				<div class="flex-1 overflow-y-auto">
@@ -24,30 +24,27 @@
 						Online Users
 					</h2>
 					<ul class="space-y-1">
-						<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
-							<span class="h-2 w-2 rounded-full bg-green-500"></span>
-							Elmyrockers
-						</li>
-						<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
-							<span class="h-2 w-2 rounded-full bg-green-500"></span>
-							Ahmad
-						</li>
-
-						<li class="flex items-center gap-3 px-5 py-2 hover:bg-slate-800">
-							<span class="h-2 w-2 rounded-full bg-green-500"></span>
-							Alia
-						</li>
+						<template x-for="username in onlineUsers">
+							<li class="flex items-center gap-3 px-5 py-0 hover:bg-slate-800">
+								<span class="h-2 w-2 rounded-full bg-green-500"></span>
+								<span x-text="username"></span>
+							</li>
+						</template>
 					</ul>
 				</div>
 				<!-- Typing indicator -->
 				<div class="border-t border-slate-700 p-4 text-sm text-slate-300">
-					<span class="font-semibold text-white">Elmyrockers</span>
-					is typing
-					<span class="inline-flex gap-1 ml-1">
-						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce"></span>
-						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:150ms]"></span>
-						<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:300ms]"></span>
-					</span>
+					<template x-if="typingUsers.length">
+						<div>
+							<span class="font-semibold text-white" x-text="typingUsers[typingUsers.length-1]"></span>
+							is typing
+							<span class="inline-flex gap-1 ml-1">
+								<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce"></span>
+								<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:150ms]"></span>
+								<span class="w-1 h-1 bg-slate-300 rounded-full animate-bounce [animation-delay:300ms]"></span>
+							</span>
+						</div>
+					</template>
 				</div>
 			</aside>
 
@@ -124,6 +121,22 @@
 			</main>
 
 		</div>
-		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<script src="//unpkg.com/alpinejs" defer></script>
+		<script>
+			document.addEventListener( 'alpine:init',()=>{
+				Alpine.data( 'app',()=>({
+					onlineUsers: [],
+					typingUsers: [],
+					init(){
+						this.onlineUsers.push( 'Elmyrockers' );
+						this.onlineUsers.push( 'Alia' );
+						this.onlineUsers.push( 'Rosman' );
+
+						this.typingUsers.push( 'Alia' );
+						this.typingUsers.push( 'Rosman' );
+					}
+				}));
+			});
+		</script>
 	</body>
 </html>
