@@ -99,11 +99,12 @@
 				
 				<!-- Typing preview (chat area) -->
 					<div class="pl-5 py-2 text-sm text-slate-500 flex items-center gap-2" x-show="typingUsers.length">
-					    <span class="italic font-semibold text-slate-600">
-					    	Elmyrockers
+					    <span class="italic font-semibold text-slate-600" x-text="typingList"></span>
+					    <span class="italic -ml-0.5">
+					    	<span x-show="typingUsers.length == 1">is</span>
+					    	<span x-show="typingUsers.length > 1">are</span>
+					    	typing
 					    </span>
-					    <span class="italic -ml-0.5" x-show="typingUsers.length == 1">is typing</span>
-					    <span class="italic -ml-0.5" x-show="typingUsers.length > 1">are typing</span>
 					    <span class="flex gap-1 relative top-0.5">
 					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
 					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
@@ -138,7 +139,10 @@
 
 						this.typingUsers.push( 'Alia' );
 						this.typingUsers.push( 'Rosman' );
-					}
+					},
+					typingList(){
+						return 'user1, user2, user3 and user4';
+					},
 				}));
 			});
 		</script>
