@@ -67,7 +67,7 @@
 											sameUsername = username === prevUsername;
 										" :class="id > 0 && !sameUsername ? 'mt-3' : ''" :data-prev-username="prevUsername" :data-username="username">
 									<!-- top row -->
-										<span class="font-semibold text-blue-600" x-text="message.username" x-show="!sameUsername"></span>
+										<span class="font-semibold text-blue-600" :class="colors[username]" x-text="message.username" x-show="!sameUsername"></span>
 									<!-- message bubble -->
 										<div class="ml-5 mt-1">
 											<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
@@ -117,10 +117,15 @@
 					messages: [],
 					
 					init(){
-						this.onlineUsers.push( 'Elmyrockers' );
-						this.onlineUsers.push( 'Alia' );
-						this.onlineUsers.push( 'Rosman' );
-						this.onlineUsers.push( 'Ahmad' );
+						// this.onlineUsers.push( 'Elmyrockers' );
+						// this.onlineUsers.push( 'Alia' );
+						// this.onlineUsers.push( 'Rosman' );
+						// this.onlineUsers.push( 'Ahmad' );
+						this.addOnlineUser( 'Elmyrockers' );
+						this.addOnlineUser( 'Alia' );
+						this.addOnlineUser( 'Rosman' );
+						this.addOnlineUser( 'Ahmad' );
+						console.log( this.colors );
 
 						this.typingUsers.push( 'Alia' );
 						this.typingUsers.push( 'Rosman' );
@@ -182,15 +187,29 @@
 
 						return `${formattedHours}:${minutes} ${suffix}`;
 					},
+					getRandomTextColor() {
+						const colors = [
+							'text-red-600',
+							'text-green-600',
+							'text-blue-600',
+							'text-yellow-600',
+							'text-purple-600',
+							'text-pink-600',
+							'text-teal-600',
+							'text-indigo-600',
+							'text-gray-600',
+							'text-orange-600',
+							'text-lime-600',
+							'text-cyan-600',
+							'text-fuchsia-600',
+							'text-violet-600',
+							'text-rose-600',
+						];
+						return colors[Math.floor(Math.random() * colors.length)];
+					},
 					addOnlineUser( username ) {
 						this.onlineUsers.push( username );
-						this.colors[ username ] = 
-					},
-					function getRandomDarkHexColor() {
-						const r = Math.floor(Math.random() * 128);
-						const g = Math.floor(Math.random() * 128);
-						const b = Math.floor(Math.random() * 128);
-						return `rgb(${r}, ${g}, ${b})`;
+						this.colors[ username ] = this.getRandomTextColor();
 					},
 				}));
 			});
