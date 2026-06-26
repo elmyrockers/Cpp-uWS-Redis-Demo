@@ -182,6 +182,16 @@
 
 						return `${formattedHours}:${minutes} ${suffix}`;
 					},
+					addOnlineUser( username ) {
+						this.onlineUsers.push( username );
+						this.colors[ username ] = 
+					},
+					function getRandomDarkHexColor() {
+						const r = Math.floor(Math.random() * 128);
+						const g = Math.floor(Math.random() * 128);
+						const b = Math.floor(Math.random() * 128);
+						return `rgb(${r}, ${g}, ${b})`;
+					},
 				}));
 			});
 		</script>
