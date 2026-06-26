@@ -58,25 +58,28 @@
 				<!-- MESSAGES -->
 					<div class="flex-1 overflow-y-auto p-5 space-y-4">
 						<!-- MESSAGE -->
+						<template x-for="(message,id) in messages">
 							<div class="space-y-1">
 								<!-- top row -->
-									<span class="font-semibold text-blue-600">Ahmad</span>
+									<span class="font-semibold text-blue-600" x-text="message.username"></span>
 								<!-- message bubble -->
 									<div class="ml-5">
 										<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
-											<span>Hello everyone 👋</span>
-											<span class="text-[10px] text-slate-400 whitespace-nowrap">10:21am</span>
+											<span x-text="message.content"></span>
+											<!-- <span class="text-[10px] text-slate-400 whitespace-nowrap" x-text="formatTime(message.timestamp)">10:21am</span> -->
+											<span class="text-[10px] text-slate-400 whitespace-nowrap" x-text="formatTime(message.timestamp)"></span>
 										</div>
 									</div>
-									<div class="ml-5">
+									<!-- <div class="ml-5">
 										<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
 											<span>Test</span>
 											<span class="text-[10px] text-slate-400 whitespace-nowrap">10:22am</span>
 										</div>
-									</div>
+									</div> -->
 							</div>
+						</template>
 						<!-- MESSAGE -->
-							<div class="space-y-1">
+							<!-- <div class="space-y-1">
 								<span class="font-semibold text-emerald-600">Elmyrockers</span>
 								<div class="ml-5">
 									<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
@@ -84,9 +87,9 @@
 										<span class="text-[10px] text-slate-400 whitespace-nowrap">10:23am</span>
 									</div>
 								</div>
-							</div>
+							</div> -->
 						<!-- MESSAGE -->
-							<div class="space-y-1">
+							<!-- <div class="space-y-1">
 								<span class="font-semibold text-purple-600">Alia</span>
 								<div class="ml-5">
 									<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
@@ -94,7 +97,7 @@
 										<span class="text-[10px] text-slate-400 whitespace-nowrap">10:23am</span>
 									</div>
 								</div>
-							</div>
+							</div> -->
 					</div>
 				
 				<!-- Typing preview (chat area) -->
@@ -132,6 +135,7 @@
 				Alpine.data( 'app',()=>({
 					onlineUsers: [],
 					typingUsers: [],
+					messages: {},
 					init(){
 						this.onlineUsers.push( 'Elmyrockers' );
 						this.onlineUsers.push( 'Alia' );
@@ -142,6 +146,27 @@
 						this.typingUsers.push( 'Rosman' );
 						this.typingUsers.push( 'Elmyrockers' );
 						this.typingUsers.push( 'Ahmad' );
+
+						this.messages[ 1 ] = {
+							id: 1,
+							username: "Ahmad",
+							content: "Hi apa khabar?",
+							timestamp: "1234567890",
+						}
+						this.messages[ 2 ] = {
+							id: 2,
+							username: "Elmyrockers",
+							content: "Khabar baik jer",
+							timestamp: "1234937890",
+						}
+						this.messages[ 3 ] = {
+							id: 3,
+							username: "Alia",
+							content: "Harap segalanya akan ok",
+							timestamp: "1234567890",
+						}
+
+						console.log( this.messages );
 					},
 					typingList(){
 						const lastUser = this.typingUsers.at(-1);
@@ -152,6 +177,18 @@
 						list += lastUser;
 
 						return list;
+					},
+					formatTime( timestamp ) {
+						// Convert timestamp to datetime
+							const date = new Date(Number(timestamp));
+
+							let hours = date.getHours();
+							const minutes = date.getMinutes().toString().padStart(2, '0');
+
+							const suffix = hours >= 12 ? "pm" : "am";
+							const formattedHours = ((hours + 11) % 12 + 1); // convert 0–23 to 1–12
+
+						return `${formattedHours}:${minutes} ${suffix}`;
 					},
 				}));
 			});
