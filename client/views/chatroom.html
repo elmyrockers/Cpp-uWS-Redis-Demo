@@ -95,9 +95,10 @@
 					</div>
 
 				<!-- Input -->
-					<form class="border-t bg-white p-4" method="post" onsubmit="return false">
+					<form class="border-t bg-white p-4" method="post" @submit.prevent="alert(input)">
 						<div class="flex gap-3">
 							<input
+								x-model="input"
 								type="text"
 								placeholder="Type a message..."
 								autofocus
@@ -115,17 +116,13 @@
 					typingUsers: [],
 					colors: {},
 					messages: [],
+					input: "",
 					
 					init(){
-						// this.onlineUsers.push( 'Elmyrockers' );
-						// this.onlineUsers.push( 'Alia' );
-						// this.onlineUsers.push( 'Rosman' );
-						// this.onlineUsers.push( 'Ahmad' );
 						this.addOnlineUser( 'Elmyrockers' );
 						this.addOnlineUser( 'Alia' );
 						this.addOnlineUser( 'Rosman' );
 						this.addOnlineUser( 'Ahmad' );
-						console.log( this.colors );
 
 						this.typingUsers.push( 'Alia' );
 						this.typingUsers.push( 'Rosman' );
