@@ -112,6 +112,7 @@
 		<script>
 			document.addEventListener( 'alpine:init',()=>{
 				Alpine.data( 'app',()=>({
+					wsClient: {},
 					onlineUsers: [],
 					typingUsers: [],
 					colors: {},
@@ -161,6 +162,8 @@
 						});
 
 						console.log( this.messages );
+
+						this.wsConnect();
 					},
 					typingList(){
 						const lastUser = this.typingUsers.at(-1);
@@ -209,7 +212,36 @@
 						this.colors[ username ] = this.getRandomTextColor();
 					},
 					sendMessage() {
-						alert( this.input );
+						const message = {
+							action: 'message',
+							input: this.input,
+						};
+						this.wsClient.send( JSON.stringify(message) );
+						
+						console.log( message );
+					},
+					wsConnect() {
+						this.wsClient = new WebSocket( "ws://localhost:9001?token=jwttoken" );
+						if ( this.wsClient.readyState == WebSocket.CONNECTING ) console.log("Still connecting...");
+
+						this.wsClient.onopen = () => {
+							console.log("Connected!");
+							this.wsClient.send( "Hello. This is a message from websocket client!" );
+						};
+
+						this.wsClient.onmessage = (event) => {
+							console.log("Message:", event.data);
+						};
+
+						this.wsClient.onclose = () => {
+							console.log("Disconnected. Reconnecting in 3s...");
+							setTimeout(() => this.wsConnect(), 3000);
+						};
+
+						this.wsClient.onerror = (err) => {
+							console.error("WebSocket error:", err);
+							this.wsClient.close(); // trigger onclose then reconnect
+						};
 					},
 				}));
 			});
