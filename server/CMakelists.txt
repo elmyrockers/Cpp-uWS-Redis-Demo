@@ -15,10 +15,12 @@ set(CMAKE_CXX_FLAGS "-nostdinc++ -isystem /usr/include/c++/14 -isystem /usr/incl
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 	)
 
-# Libraries - include uWebsockets and redis-plus-plus
+# Libraries - include uWebsockets, jwt-cpp and redis-plus-plus
 	find_package(redis++ CONFIG REQUIRED)
 	target_link_libraries(cpp-uws-redis-demo PRIVATE redis++::redis++_static)
 	find_package(unofficial-uwebsockets CONFIG REQUIRED)
 	target_link_libraries(cpp-uws-redis-demo PRIVATE unofficial::uwebsockets::uwebsockets)
+	find_package(jwt-cpp CONFIG REQUIRED)
+	target_link_libraries(cpp-uws-redis-demo PRIVATE jwt-cpp::jwt-cpp)
 
 	set_target_properties(cpp-uws-redis-demo PROPERTIES OUTPUT_NAME "app")
