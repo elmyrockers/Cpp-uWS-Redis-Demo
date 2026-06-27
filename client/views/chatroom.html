@@ -217,11 +217,11 @@
 							input: this.input,
 						};
 						this.wsClient.send( JSON.stringify(message) );
-						
+
 						console.log( message );
 					},
 					wsConnect() {
-						this.wsClient = new WebSocket( "ws://localhost:9001?token=jwttoken" );
+						this.wsClient = new WebSocket( "ws://localhost:9001?token={{.Token}}" );
 						if ( this.wsClient.readyState == WebSocket.CONNECTING ) console.log("Still connecting...");
 
 						this.wsClient.onopen = () => {
