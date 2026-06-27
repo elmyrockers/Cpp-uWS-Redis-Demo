@@ -95,7 +95,7 @@
 					</div>
 
 				<!-- Input -->
-					<form class="border-t bg-white p-4" method="post" @submit.prevent="alert(input)">
+					<form class="border-t bg-white p-4" method="post" @submit.prevent="sendMessage">
 						<div class="flex gap-3">
 							<input
 								x-model="input"
@@ -103,7 +103,7 @@
 								placeholder="Type a message..."
 								autofocus
 								class="flex-1 rounded-lg border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-							<button class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">Send</button>
+							<button class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">Send <span>➤</span></button>
 						</div>
 					</form>
 			</main>
@@ -207,6 +207,9 @@
 					addOnlineUser( username ) {
 						this.onlineUsers.push( username );
 						this.colors[ username ] = this.getRandomTextColor();
+					},
+					sendMessage() {
+						alert( this.input );
 					},
 				}));
 			});
