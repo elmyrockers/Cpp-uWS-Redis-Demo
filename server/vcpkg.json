@@ -4,6 +4,9 @@
   "dependencies": [
     "redis-plus-plus",
     "uwebsockets",
-    "jwt-cpp"
+    {
+      "name": "jwt-cpp",
+      "features": [ "picojson" ]
+    }
   ]
 }
