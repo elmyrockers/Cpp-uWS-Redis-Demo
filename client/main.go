@@ -5,8 +5,7 @@ import (
 	"github.com/gofiber/template/html/v3"
 	"github.com/gofiber/fiber/v3/middleware/static"
 	"github.com/gofiber/fiber/v3/middleware/session"
-
-	// "fmt"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func main() {
@@ -30,25 +29,31 @@ func main() {
 			app.Get("/chatroom", func(c fiber.Ctx) error {
 				sess := session.FromContext(c)
 
-				// Get username
+				// Get username from session
 					username := sess.Get( "username" )
 					if username == nil {
 						return c.Redirect().To("/")
 					}
-					
+
+				// Generate JWT token to be used with websocket auth
+					token := "";
+
 				// Render chatroom page
 					return c.Render("chatroom", fiber.Map{
 						"Username": username,
+						"Token": token,
 					})
 			})
 
 		// POST
 			app.Post("/", func(c fiber.Ctx) error {
-				username := c.FormValue( "username" )
-				sess := session.FromContext(c)
-				sess.Set( "username", username )
+				// Store username into session
+					username := c.FormValue( "username" )
+					sess := session.FromContext(c)
+					sess.Set( "username", username )
 
-				return c.Redirect().To("/chatroom")
+				// Redirect to chatroom page
+					return c.Redirect().To("/chatroom")
 			})
 
 	app.Listen(":3000")
