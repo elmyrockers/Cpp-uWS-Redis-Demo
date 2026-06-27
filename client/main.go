@@ -62,13 +62,16 @@ func main() {
 				sess := session.FromContext(c)
 
 				// Get username from session
-					username := sess.Get( "username" )
-					if username == nil {
-						return c.Redirect().To("/")
+					username, ok := sess.Get( "username" ).(string)
+					if !ok || username == "" {
+					    return c.Redirect().To("/")
 					}
 
 				// Generate JWT token to be used with websocket auth
-					token := "";
+					token, err := generateJWTToken( username );
+					if err != nil {
+						return c.Status(fiber.StatusInternalServerError).SendString("Could not sign token")
+					}
 
 				// Render chatroom page
 					return c.Render("chatroom", fiber.Map{
