@@ -1,12 +1,44 @@
 package main
 
 import (
+	"os"
+	"time"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/template/html/v3"
 	"github.com/gofiber/fiber/v3/middleware/static"
 	"github.com/gofiber/fiber/v3/middleware/session"
 	"github.com/golang-jwt/jwt/v5"
 )
+
+func generateJWTToken( username string ) (string, error) {
+	// Load private key
+		privateKeyData, err := os.ReadFile("keys/private.pem")
+		if err != nil {
+			return "", err
+		}
+
+	// Parse private key
+		signingKey, err := jwt.ParseRSAPrivateKeyFromPEM(privateKeyData)
+		if err != nil {
+			return "", err
+		}
+
+	// Claims with 1-hour expiry
+		claims := jwt.MapClaims{
+			"username": username,
+			"exp":      time.Now().Add(time.Hour).Unix(),
+		}
+
+	// Create and sign token
+		token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+		signedToken, err := token.SignedString(signingKey)
+		if err != nil {
+			return "", err
+		}
+
+	return signedToken, nil
+}
 
 func main() {
 	// Use `html/template` view engine
