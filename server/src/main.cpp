@@ -29,29 +29,33 @@ int main() {
 	uWS::App::WebSocketBehavior<PerSocketData> behavior;
 
 	behavior.upgrade = [](auto *response, auto *request, auto *context) {
-		std::string token(request->getQuery("token"));
-		std::print("Token: {}\n", token);
+		// Get token from query
+			std::string token(request->getQuery("token"));
+			// std::print("Token: {}\n", token);
 
 		try {
-			std::string publicKeyPem = loadPublicKey("keys/public.pem");
-			auto decoded  = jwt::decode<jwt::traits::kazuho_picojson>(token);
-			auto verifier = jwt::verify<jwt::traits::kazuho_picojson>()
-									.allow_algorithm(jwt::algorithm::rs256(publicKeyPem, "", "", ""));
-			verifier.verify(decoded);
+			// Verify JWT token
+				std::string publicKeyPem = loadPublicKey("keys/public.pem");
+				auto decoded  = jwt::decode<jwt::traits::kazuho_picojson>(token);
+				auto verifier = jwt::verify<jwt::traits::kazuho_picojson>()
+										.allow_algorithm(jwt::algorithm::rs256(publicKeyPem, "", "", ""));
+				verifier.verify(decoded);
 
-			std::string username = decoded.get_payload_claim("username").as_string();
-			std::print("Username from claim: {}\n", username);
+			// Extract username from claim
+				std::string username = decoded.get_payload_claim("username").as_string();
+				// std::print("Username from claim: {}\n", username);
 
-			response->template upgrade<PerSocketData>(
-				{
-					.username = username,
-					.connectionId = std::to_string(std::rand()),
-				},
-				request->getHeader("sec-websocket-key"),
-				request->getHeader("sec-websocket-protocol"),
-				request->getHeader("sec-websocket-extensions"),
-				context
-			);
+			// Upgrade the connection
+				response->template upgrade<PerSocketData>(
+					{
+						.username = username,
+						.connectionId = std::to_string(std::rand()),
+					},
+					request->getHeader("sec-websocket-key"),
+					request->getHeader("sec-websocket-protocol"),
+					request->getHeader("sec-websocket-extensions"),
+					context
+				);
 
 		} catch (const std::exception &e) {
 			std::print("JWT verification failed: {}\n", e.what());
@@ -60,7 +64,7 @@ int main() {
 	};
 
 	behavior.open = [](auto *ws) {
-		std::print("Client connected: {}\n", ws->getUserData()->username);
+		std::print("Client connected: {}\nConnection ID: {}\n", ws->getUserData()->username, ws->getUserData()->connectionId);
 	};
 
 	behavior.message = [](auto *ws, std::string_view msg, uWS::OpCode) {
