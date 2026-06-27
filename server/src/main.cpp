@@ -70,7 +70,7 @@ int main() {
 
 	behavior.message = [](auto *ws, std::string_view msg, uWS::OpCode) {
 		std::print("Received: {}\n", msg);
-		ws->publish("chatroom", msg, uWS::OpCode::TEXT);
+		ws->publish("chatroom", msg, uWS::OpCode::TEXT, false);
 		// ws->send("this is a message from websocket server", uWS::OpCode::TEXT);
 	};
 
