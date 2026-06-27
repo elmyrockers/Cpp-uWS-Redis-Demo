@@ -21,7 +21,7 @@ std::string loadPublicKey(const std::string &path) {
 	std::stringstream buffer;
 	buffer << file.rdbuf();
 	std::string key = buffer.str();
-	std::print("Loaded public key ({} bytes)\n", key.size());
+	// std::print("Loaded public key ({} bytes)\n", key.size());
 	return key;
 }
 
@@ -64,12 +64,14 @@ int main() {
 	};
 
 	behavior.open = [](auto *ws) {
+		ws->subscribe("chatroom");
 		std::print("Client connected: {}\nConnection ID: {}\n", ws->getUserData()->username, ws->getUserData()->connectionId);
 	};
 
 	behavior.message = [](auto *ws, std::string_view msg, uWS::OpCode) {
 		std::print("Received: {}\n", msg);
-		ws->send("this is a message from websocket server", uWS::OpCode::TEXT);
+		ws->publish("chatroom", msg, uWS::OpCode::TEXT);
+		// ws->send("this is a message from websocket server", uWS::OpCode::TEXT);
 	};
 
 	behavior.close = [](auto *ws, int code, std::string_view) {
