@@ -21,7 +21,6 @@ std::string loadPublicKey(const std::string &path) {
 	std::stringstream buffer;
 	buffer << file.rdbuf();
 	std::string key = buffer.str();
-	// std::print("Loaded public key ({} bytes)\n", key.size());
 	return key;
 }
 
@@ -70,8 +69,32 @@ int main() {
 
 	behavior.message = [](auto *ws, std::string_view msg, uWS::OpCode) {
 		std::print("Received: {}\n", msg);
-		ws->publish("chatroom", msg, uWS::OpCode::TEXT, false);
-		// ws->send("this is a message from websocket server", uWS::OpCode::TEXT);
+		
+		// Parse JSON message
+			std::string err;
+			picojson::value parsed;
+			err = picojson::parse(parsed, std::string(msg));
+			if (!err.empty() || !parsed.is<picojson::object>()) {
+				std::print("Invalid JSON: {}\n", err);
+				return;
+			}
+		
+		// Reset the message to include connection ID, username and timestamp
+			auto now = std::chrono::system_clock::now().time_since_epoch();
+			auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now).count();
+
+			auto &responseMessage = parsed.get<picojson::object>();
+			responseMessage["connection_id"] = picojson::value(ws->getUserData()->connectionId);
+			responseMessage["username"] = picojson::value(ws->getUserData()->username);
+			responseMessage["timestamp"] = picojson::value(static_cast<double>(timestamp));
+
+			std::string responseJSON = picojson::value(responseMessage).serialize();
+
+
+
+
+		ws->publish("chatroom", responseJSON, uWS::OpCode::TEXT);
+		ws->send(responseJSON, uWS::OpCode::TEXT);
 	};
 
 	behavior.close = [](auto *ws, int code, std::string_view) {
