@@ -8,7 +8,9 @@ set(CMAKE_CXX_FLAGS "-nostdinc++ -isystem /usr/include/c++/14 -isystem /usr/incl
 	target_compile_features(cpp-uws-redis-demo PRIVATE cxx_std_23)
 	target_sources(cpp-uws-redis-demo
 		PRIVATE
-		src/main.cpp
+			src/main.cpp
+		PUBLIC FILE_SET CXX_MODULES FILES
+			src/chatroom.cppm
 	)
 	target_include_directories(cpp-uws-redis-demo
 		PUBLIC
