@@ -56,9 +56,9 @@
 						<h2 class="text-lg font-semibold">Public Chatroom</h2>
 					</header>
 				<!-- MESSAGES -->
-					<div class="flex-1 overflow-y-auto p-5">
-						<!-- MESSAGE -->
-							<template x-for="(message,id) in messages">
+					<div class="flex-1 overflow-y-auto p-5" x-ref="chat">
+						<template x-for="(message,id) in messages">
+							<!-- MESSAGE -->
 								<div class="space-y-1" 
 										x-data="{ username: '', prevUsername: '', sameUsername: false }"
 										x-init="
@@ -76,7 +76,7 @@
 											</div>
 										</div>
 								</div>
-							</template>
+						</template>
 					</div>
 				
 				<!-- Typing preview (chat area) -->
@@ -214,7 +214,7 @@
 					sendMessage() {
 						const message = {
 							action: 'message',
-							input: this.input,
+							content: this.input,
 						};
 						this.wsClient.send( JSON.stringify(message) );
 
@@ -230,7 +230,10 @@
 						};
 
 						this.wsClient.onmessage = (event) => {
-							console.log("Message:", event.data);
+							const message = JSON.parse( event.data );
+							if ( message.action == 'message' ) this.messages.push( message );
+							
+							console.log("Message:", message);
 						};
 
 						this.wsClient.onclose = () => {
