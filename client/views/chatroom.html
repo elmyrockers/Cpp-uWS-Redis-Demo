@@ -81,17 +81,17 @@
 				
 				<!-- Typing preview (chat area) -->
 					<div class="pl-5 py-2 text-sm text-slate-500 flex items-center gap-2" x-show="typingUsers.length">
-					    <span class="italic font-semibold text-slate-600" x-text="typingList"></span>
-					    <span class="italic -ml-0.5">
-					    	<span x-show="typingUsers.length == 1">is</span>
-					    	<span x-show="typingUsers.length > 1">are</span>
-					    	typing
-					    </span>
-					    <span class="flex gap-1 relative top-0.5">
-					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
-					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
-					        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:300ms]"></span>
-					    </span>
+						<span class="italic font-semibold text-slate-600" x-text="typingList"></span>
+						<span class="italic -ml-0.5">
+							<span x-show="typingUsers.length == 1">is</span>
+							<span x-show="typingUsers.length > 1">are</span>
+							typing
+						</span>
+						<span class="flex gap-1 relative top-0.5">
+							<span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
+							<span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
+							<span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:300ms]"></span>
+						</span>
 					</div>
 
 				<!-- Input -->
@@ -230,10 +230,17 @@
 						};
 
 						this.wsClient.onmessage = (event) => {
-							const message = JSON.parse( event.data );
-							if ( message.action == 'message' ) this.messages.push( message );
-							
-							console.log("Message:", message);
+							// Add new message
+								const message = JSON.parse( event.data );
+								if ( message.action == 'message' ) this.messages.push( message );
+
+							// Scroll down chat area
+								this.$nextTick(() => {
+									this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight
+								})
+
+							// Reset user input
+								this.input = '';
 						};
 
 						this.wsClient.onclose = () => {
