@@ -130,36 +130,36 @@
 						this.typingUsers.push( 'Elmyrockers' );
 						this.typingUsers.push( 'Ahmad' );
 
-						this.messages.push({
-							id: 1,
-							username: "Ahmad",
-							content: "Hi apa khabar?",
-							timestamp: "1234567890",
-						});
-						this.messages.push({
-							id: 2,
-							username: "Elmyrockers",
-							content: "Khabar baik jer",
-							timestamp: "1234937890",
-						});
-						this.messages.push({
-							id: 3,
-							username: "Elmyrockers",
-							content: "Khabar baik jer 2",
-							timestamp: "1234937890",
-						});
-						this.messages.push({
-							id: 4,
-							username: "Elmyrockers",
-							content: "hahaha",
-							timestamp: "1234937890",
-						});
-						this.messages.push({
-							id: 5,
-							username: "Alia",
-							content: "Harap segalanya akan ok",
-							timestamp: "1234567890",
-						});
+						// this.messages.push({
+						// 	id: 1,
+						// 	username: "Ahmad",
+						// 	content: "Hi apa khabar?",
+						// 	timestamp: "1234567890",
+						// });
+						// this.messages.push({
+						// 	id: 2,
+						// 	username: "Elmyrockers",
+						// 	content: "Khabar baik jer",
+						// 	timestamp: "1234937890",
+						// });
+						// this.messages.push({
+						// 	id: 3,
+						// 	username: "Elmyrockers",
+						// 	content: "Khabar baik jer 2",
+						// 	timestamp: "1234937890",
+						// });
+						// this.messages.push({
+						// 	id: 4,
+						// 	username: "Elmyrockers",
+						// 	content: "hahaha",
+						// 	timestamp: "1234937890",
+						// });
+						// this.messages.push({
+						// 	id: 5,
+						// 	username: "Alia",
+						// 	content: "Harap segalanya akan ok",
+						// 	timestamp: "1234567890",
+						// });
 
 						console.log( this.messages );
 
@@ -236,7 +236,10 @@
 
 							// Scroll down chat area
 								this.$nextTick(() => {
-									this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight
+									this.$refs.chat.scrollTo({
+										top: this.$refs.chat.scrollHeight,
+										behavior: 'smooth'
+									})
 								})
 
 							// Reset user input
