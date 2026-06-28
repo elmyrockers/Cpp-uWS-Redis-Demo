@@ -25,7 +25,7 @@
 					</h2>
 					<ul class="space-y-1">
 						<template x-for="username in onlineUsers">
-							<li class="flex items-center gap-3 px-5 py-0 hover:bg-slate-800">
+							<li class="flex items-center gap-3 px-5 py-0 hover:bg-slate-800 capitalize">
 								<span class="h-2 w-2 rounded-full bg-green-500"></span>
 								<span x-text="username"></span>
 							</li>
@@ -120,10 +120,10 @@
 					input: "",
 					
 					init(){
-						this.addOnlineUser( 'Elmyrockers' );
-						this.addOnlineUser( 'Alia' );
-						this.addOnlineUser( 'Rosman' );
-						this.addOnlineUser( 'Ahmad' );
+						this.addOnlineUser( 'elmyrockers' );
+						this.addOnlineUser( 'alia' );
+						this.addOnlineUser( 'rosman' );
+						this.addOnlineUser( 'ahmad' );
 
 						this.typingUsers.push( 'Alia' );
 						this.typingUsers.push( 'Rosman' );
@@ -234,7 +234,7 @@
 							// Add new message
 								const message = JSON.parse( event.data );
 								if ( message.action == 'message' ) this.messages.push( message );
-								console.log( 'Mesej Diterima:', message, 'Timestamp:', message.timestamp );
+								// console.log( 'Mesej Diterima:', message, 'Timestamp:', message.timestamp );
 
 							// Scroll down chat area
 								this.$nextTick(() => {
