@@ -67,7 +67,7 @@
 											sameUsername = username === prevUsername;
 										" :class="id > 0 && !sameUsername ? 'mt-3' : ''" :data-prev-username="prevUsername" :data-username="username">
 									<!-- top row -->
-										<span class="font-semibold text-blue-600" :class="colors[username]" x-text="message.username" x-show="!sameUsername"></span>
+										<span class="font-semibold text-blue-600 capitalize" :class="colors[username]" x-text="message.username" x-show="!sameUsername"></span>
 									<!-- message bubble -->
 										<div class="ml-5 mt-1">
 											<div class="inline-flex items-end gap-2 bg-white rounded-lg px-4 py-2 shadow-sm text-slate-700 max-w-[70%]">
@@ -177,7 +177,8 @@
 					},
 					formatTime( timestamp ) {
 						// Convert timestamp to datetime
-							const date = new Date(Number(timestamp));
+							const ms = Number(timestamp)*1000;
+							const date = new Date(ms);
 
 							let hours = date.getHours();
 							const minutes = date.getMinutes().toString().padStart(2, '0');
@@ -233,6 +234,7 @@
 							// Add new message
 								const message = JSON.parse( event.data );
 								if ( message.action == 'message' ) this.messages.push( message );
+								console.log( 'Mesej Diterima:', message, 'Timestamp:', message.timestamp );
 
 							// Scroll down chat area
 								this.$nextTick(() => {
