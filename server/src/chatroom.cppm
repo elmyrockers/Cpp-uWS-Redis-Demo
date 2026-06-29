@@ -5,7 +5,7 @@ module;
 
 export module chatroom;
 
-export class chatroom {
+export class Chatroom {
     std::unordered_set<std::string> connectedUsers;
 
 public:
