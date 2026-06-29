@@ -7,6 +7,8 @@
 #include <jwt-cpp/jwt.h>
 #include <jwt-cpp/traits/kazuho-picojson/defaults.h>
 
+import chatroom;
+
 struct PerSocketData {
 	std::string username;
 	std::string connectionId;
@@ -25,8 +27,9 @@ std::string loadPublicKey(const std::string &path) {
 }
 
 int main() {
-	uWS::App::WebSocketBehavior<PerSocketData> behavior;
+	Chatroom chatroom;
 
+	uWS::App::WebSocketBehavior<PerSocketData> behavior;
 	behavior.upgrade = [](auto *response, auto *request, auto *context) {
 		// Get token from query
 			std::string token(request->getQuery("token"));
@@ -62,9 +65,12 @@ int main() {
 		}
 	};
 
-	behavior.open = [](auto *ws) {
+	behavior.open = [&chatroom](auto *ws) {
 		ws->subscribe("chatroom");
+		// connectedUsers.insert(ws->getUserData()->username);
+		chatroom.addUser(ws->getUserData()->username);
 		std::print("Client connected: {}\nConnection ID: {}\n", ws->getUserData()->username, ws->getUserData()->connectionId);
+		std::print("Current connected users: {}\n\n", chatroom.getUsersJson());
 	};
 
 	behavior.message = [](auto *ws, std::string_view msg, uWS::OpCode) {
@@ -97,8 +103,11 @@ int main() {
 		ws->send(responseJSON, uWS::OpCode::TEXT);
 	};
 
-	behavior.close = [](auto *ws, int code, std::string_view) {
+	behavior.close = [&chatroom](auto *ws, int code, std::string_view) {
 		std::print("Client disconnected (code {})\n", code);
+		// connectedUsers.erase(ws->getUserData()->username);
+		chatroom.removeUser(ws->getUserData()->username);
+		std::print("Current connected users: {}\n\n", chatroom.getUsersJson());
 	};
 
 	uWS::App()
