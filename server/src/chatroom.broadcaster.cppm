@@ -1,3 +1,4 @@
+module;
 #include <string>
 
 export module chatroom:broadcaster;
