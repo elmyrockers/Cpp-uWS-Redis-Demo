@@ -12,6 +12,7 @@ set(CMAKE_CXX_FLAGS "-nostdinc++ -isystem /usr/include/c++/14 -isystem /usr/incl
 		PUBLIC FILE_SET CXX_MODULES FILES
 			src/chatroom.cppm
 			src/chatroom.server.cppm
+			src/chatroom.auth.cppm
 			src/chatroom.broadcaster.cppm
 	)
 	target_include_directories(cpp-uws-redis-demo
