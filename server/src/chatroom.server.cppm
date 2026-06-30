@@ -33,17 +33,11 @@ export namespace chatroom {
 						std::print("JWT verification successful for user:\nUsername: {}\nExpiration: {}\n", payload.username, payload.exp);
 
 					// Upgrade the connection
-						response->template upgrade<PerSocketData>(
-							{
-								.username = payload.username,
-								.connectionId = std::to_string(std::rand()),
-								.exp = payload.exp,
-							},
-							request->getHeader("sec-websocket-key"),
-							request->getHeader("sec-websocket-protocol"),
-							request->getHeader("sec-websocket-extensions"),
-							context
-						);
+						auth.upgradeConnection<PerSocketData>(response, request, context, payload);
+				};
+				behavior.open = [](auto *ws) {
+					ws->publish("chatroom", "Connection opened");
+					std::print("WebSocket connection opened for user: {}\n\n", ws->getUserData()->username);
 				};
 			}
 			void start( int port ) {
