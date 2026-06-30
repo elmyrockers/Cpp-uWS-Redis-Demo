@@ -1,19 +1,51 @@
 module;
 #include <string>
 #include <print>
+#include <chrono>
 #include <uwebsockets/App.h>
 
 export module chatroom:server;
+import :auth;
 
 export namespace chatroom {
 	struct PerSocketData {
 		std::string username;
 		std::string connectionId;
+		std::chrono::system_clock::time_point exp;
 	};
 	class Server {
 		uWS::App::WebSocketBehavior<PerSocketData> behavior;
 		public:
-			Server() = default;
+			Server() {
+				behavior.upgrade = [](auto *response, auto *request, auto *context) {
+					// Get token from query
+						std::string token(request->getQuery("token"));
+						std::print("Token: {}\n", token);
+
+					// Verify JWT token
+						chatroom::Auth auth;
+						chatroom::Payload payload;
+						bool verified = auth.verifyToken(token, payload);
+						if (!verified) {
+							response->close();
+							return;
+						}
+						std::print("JWT verification successful for user:\nUsername: {}\nExpiration: {}\n", payload.username, payload.exp);
+
+					// Upgrade the connection
+						response->template upgrade<PerSocketData>(
+							{
+								.username = payload.username,
+								.connectionId = std::to_string(std::rand()),
+								.exp = payload.exp,
+							},
+							request->getHeader("sec-websocket-key"),
+							request->getHeader("sec-websocket-protocol"),
+							request->getHeader("sec-websocket-extensions"),
+							context
+						);
+				};
+			}
 			void start( int port ) {
 				// Run the websocket server
 					uWS::App()
