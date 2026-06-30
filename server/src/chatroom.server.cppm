@@ -1,3 +1,6 @@
+module;
+#include <uwebsockets/App.h>
+
 export module chatroom:server;
 
 export namespace chatroom {
