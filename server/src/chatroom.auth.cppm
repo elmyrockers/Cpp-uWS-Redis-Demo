@@ -50,5 +50,19 @@ export namespace chatroom {
 				}
 				return true;
 			}
+			template <typename T1>
+			void upgradeConnection(auto *response, auto *request, auto *context, Payload &payload) {
+				response->template upgrade<T1>(
+					{
+						.username = payload.username,
+						.connectionId = std::to_string(std::rand()),
+						.exp = payload.exp,
+					},
+					request->getHeader("sec-websocket-key"),
+					request->getHeader("sec-websocket-protocol"),
+					request->getHeader("sec-websocket-extensions"),
+					context
+				);
+			}
 	};
 }
