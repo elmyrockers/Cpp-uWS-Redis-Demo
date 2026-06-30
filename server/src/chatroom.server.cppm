@@ -4,6 +4,6 @@ export namespace chatroom {
     class Server {
         public:
             Server() = default;
-            void start() {}
+            void start( int port ) {}
     };
 }
