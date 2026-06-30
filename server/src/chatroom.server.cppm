@@ -27,7 +27,7 @@ export namespace chatroom {
 						chatroom::Payload payload;
 						bool verified = auth.verifyToken(token, payload);
 						if (!verified) {
-							response->close();
+							response->writeStatus("401 Unauthorized")->end();
 							return;
 						}
 						std::print("JWT verification successful for user:\nUsername: {}\nExpiration: {}\n", payload.username, payload.exp);
