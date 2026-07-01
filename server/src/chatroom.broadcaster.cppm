@@ -7,7 +7,10 @@ export namespace chatroom {
 	class Broadcaster {
 		public:
 			Broadcaster() = default;
-			void connectUser( auto *ws ) {}
+			void connectUser( auto *ws ) {
+				// Subscribe to the "chatroom" topic
+					ws->subscribe("chatroom");
+			}
 			void disconnectUser( auto *ws ) {}
 			void sendListOfConnectedUsers( auto *ws ) {}
 
