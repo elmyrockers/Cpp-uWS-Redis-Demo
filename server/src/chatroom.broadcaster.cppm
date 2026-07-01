@@ -38,6 +38,7 @@ export namespace chatroom {
 
 				// Broadcast the message to all connected clients
 					ws->publish("chatroom", jsonMessage, uWS::OpCode::TEXT);
+					ws->send(jsonMessage, uWS::OpCode::TEXT);
 			}
 
 			void sendMessageHistoryToUser( auto *ws ) {}
