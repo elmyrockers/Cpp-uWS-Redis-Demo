@@ -15,11 +15,13 @@ export namespace chatroom {
 		std::chrono::system_clock::time_point exp;
 	};
 	class Server {
+		uWS::App app;
 		uWS::App::WebSocketBehavior<PerSocketData> behavior;
 		chatroom::Auth auth;
 		chatroom::Broadcaster broadcaster;
 		public:
 			Server() {
+				broadcaster.setApp(&app);
 				behavior.upgrade = [this](auto *response, auto *request, auto *context) {
 					// Get token from query
 						std::string token(request->getQuery("token"));
@@ -51,15 +53,14 @@ export namespace chatroom {
 			}
 			void start( int port ) {
 				// Run the websocket server
-					uWS::App()
-							.ws<PerSocketData>("/*", std::move(behavior))
-							.listen( port, [&port](auto *token) {
-								if (token) {
-									std::print("Server listening on port {}\n", port);
-								} else {
-									std::print("Failed to listen on port {}\n", port);
-								}
-							}).run();
+					app.ws<PerSocketData>("/*", std::move(behavior))
+						.listen( port, [&port](auto *token) {
+							if (token) {
+								std::print("Server listening on port {}\n", port);
+							} else {
+								std::print("Failed to listen on port {}\n", port);
+							}
+						}).run();
 			}
 	};
 }
