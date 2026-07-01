@@ -234,6 +234,7 @@
 
 							// List all of online users
 								else if ( message.action == 'online_users' ) {
+									this.onlineUsers = [];
 									for(username of message.users) {
 										this.addOnlineUser( username );
 									}
