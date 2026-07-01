@@ -43,6 +43,11 @@ export namespace chatroom {
 						broadcaster.connectUser(ws);
 						std::print("WebSocket connection opened for user: {}\n\n", ws->getUserData()->username);
 				};
+				behavior.close = [this](auto *ws, int code, std::string_view message) {
+					// Disconnect the user
+						broadcaster.disconnectUser(ws);
+						std::print("WebSocket connection closed for user: {}\nCode: {}\nMessage: {}\n\n", ws->getUserData()->username, code, message);
+				};
 			}
 			void start( int port ) {
 				// Run the websocket server
