@@ -10,16 +10,6 @@ export namespace chatroom {
 	class Broadcaster {
 		private:
 			std::unordered_set<std::string> connectedUsers;
-			std::string usersToJson(const std::unordered_set<std::string> &connectedUsers) {
-				picojson::array users;
-				for (const auto &username : connectedUsers) {
-					users.push_back(picojson::value(username));
-				}
-				picojson::object message;
-				message["type"]  = picojson::value(std::string("connectedUsers"));
-				message["users"] = picojson::value(users);
-				return picojson::value(message).serialize();
-			}
 		public:
 			Broadcaster() = default;
 			void connectUser( auto *ws ) {
