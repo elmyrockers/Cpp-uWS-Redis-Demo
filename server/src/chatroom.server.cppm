@@ -6,6 +6,7 @@ module;
 
 export module chatroom:server;
 import :auth;
+import :broadcaster;
 
 export namespace chatroom {
 	struct PerSocketData {
@@ -17,6 +18,7 @@ export namespace chatroom {
 		uWS::App::WebSocketBehavior<PerSocketData> behavior;
 		public:
 			Server() {
+				chatroom::Broadcaster broadcaster;
 				behavior.upgrade = [](auto *response, auto *request, auto *context) {
 					// Get token from query
 						std::string token(request->getQuery("token"));
@@ -35,9 +37,10 @@ export namespace chatroom {
 					// Upgrade the connection
 						auth.upgradeConnection<PerSocketData>(response, request, context, payload);
 				};
-				behavior.open = [](auto *ws) {
-					ws->publish("chatroom", "Connection opened");
-					std::print("WebSocket connection opened for user: {}\n\n", ws->getUserData()->username);
+				behavior.open = [&broadcaster](auto *ws) {
+					// Connect the user and broadcast the list of connected users
+						broadcaster.connectUser(ws);
+						std::print("WebSocket connection opened for user: {}\n\n", ws->getUserData()->username);
 				};
 			}
 			void start( int port ) {
