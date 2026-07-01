@@ -31,6 +31,9 @@ export namespace chatroom {
 		public:
 			Auth() {
 				publicKeyPem = loadPublicKey("keys/public.pem");
+				if (publicKeyPem.empty()) {
+					std::print("Public key is empty. JWT verification will fail.\n");
+				}
 			}
 			// Verify JWT token and extract payload claim
 			bool verifyToken(const std::string &token, Payload &payload ) {
@@ -50,9 +53,9 @@ export namespace chatroom {
 				}
 				return true;
 			}
-			template <typename T1>
+			template <typename UserData>
 			void upgradeConnection(auto *response, auto *request, auto *context, Payload &payload) {
-				response->template upgrade<T1>(
+				response->template upgrade<UserData>(
 					{
 						.username = payload.username,
 						.connectionId = std::to_string(std::rand()),
