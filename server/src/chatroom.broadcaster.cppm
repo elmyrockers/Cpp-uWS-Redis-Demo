@@ -7,6 +7,12 @@ export namespace chatroom {
 	class Broadcaster {
 		public:
 			Broadcaster() = default;
-			void sendMessageToAllUsers(const std::string &message) {}
+			void connectUser( auto *ws ) {}
+			void disconnectUser( auto *ws ) {}
+			void sendListOfConnectedUsers( auto *ws ) {}
+
+			void sendMessageHistoryToUser( auto *ws ) {}
+			void sendMessageToAllUsers( auto *ws ) {}
+			void sendTypingIndicator( auto *ws ) {}
 	};
 }
