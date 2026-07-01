@@ -16,16 +16,16 @@ export namespace chatroom {
 	};
 	class Server {
 		uWS::App::WebSocketBehavior<PerSocketData> behavior;
+		chatroom::Auth auth;
+		chatroom::Broadcaster broadcaster;
 		public:
 			Server() {
-				chatroom::Broadcaster broadcaster;
-				behavior.upgrade = [](auto *response, auto *request, auto *context) {
+				behavior.upgrade = [this](auto *response, auto *request, auto *context) {
 					// Get token from query
 						std::string token(request->getQuery("token"));
 						std::print("Token: {}\n", token);
 
 					// Verify JWT token
-						chatroom::Auth auth;
 						chatroom::Payload payload;
 						bool verified = auth.verifyToken(token, payload);
 						if (!verified) {
@@ -35,9 +35,10 @@ export namespace chatroom {
 						std::print("JWT verification successful for user:\nUsername: {}\nExpiration: {}\n", payload.username, payload.exp);
 
 					// Upgrade the connection
+						std::print("Upgrading connection for user: {}\n", payload.username);
 						auth.upgradeConnection<PerSocketData>(response, request, context, payload);
 				};
-				behavior.open = [&broadcaster](auto *ws) {
+				behavior.open = [this](auto *ws) {
 					// Connect the user and broadcast the list of connected users
 						broadcaster.connectUser(ws);
 						std::print("WebSocket connection opened for user: {}\n\n", ws->getUserData()->username);
