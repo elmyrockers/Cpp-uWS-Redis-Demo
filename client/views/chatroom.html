@@ -159,8 +159,11 @@
 						this.wsConnect();
 					},
 					typingList(){
-						const lastUser = this.typingUsers.at(-1);
-						const otherUsers = this.typingUsers.slice(0, -1).join(', ');
+						const usernames = this.typingUsers.map(username =>{
+							return username.charAt(0).toUpperCase() + username.slice(1);
+						});
+						const lastUser = usernames.at(-1);
+						const otherUsers = usernames.slice(0, -1).join(', ');
 						
 						let list = '';
 						if ( otherUsers ) list = `${otherUsers} and `;
