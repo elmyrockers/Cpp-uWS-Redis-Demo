@@ -114,7 +114,6 @@
 			document.addEventListener( 'alpine:init',()=>{
 				Alpine.data( 'app',()=>({
 					wsClient: {},
-					currentUser: '{{.Username}}',
 					onlineUsers: [],
 					typingUsers: [],
 					colors: {},
@@ -218,17 +217,12 @@
 						}, 3000 );
 					},
 					startTypingIndicator() {
-						// Only allow websocket request every 3 seconds of inactivity
-						// to reduce server load
+						// Stop typing indicator after 3 seconds of inactivity
 							if ( !this.isTyping ) {
 								this.isTyping = true;
 								this.setStopTimer();
 								
 								// Start typing indicator
-									//------------------
-									// this.typingUsers.push( 'elmyrockers' );
-									// console.log( 'startTypingIndicator:', this.input );
-									//------------------
 									this.wsClient.send( JSON.stringify({action:'start_typing'}) );
 									console.log( 'Start typing' )
 							} else {
@@ -237,11 +231,6 @@
 							}
 					},
 					stopTypingIndicator() {
-						// console.log( 'Stop Typing Indicator' );
-						// console.log( 'Typing Users:', this.typingUsers );
-
-						// const index = this.typingUsers.indexOf( 'elmyrockers' );
-						// this.typingUsers.splice( index, 1 );
 						this.wsClient.send( JSON.stringify({action:'stop_typing'}) );
 						console.log( 'Stop typing' )
 					},
@@ -276,6 +265,13 @@
 									for(username of message.users) {
 										this.addOnlineUser( username );
 									}
+								}
+
+							// Start and stop typing indicator
+								else if ( message.action == 'start_typing' ) this.typingUsers.push( message.username );
+								else if ( message.action == 'stop_typing' ) {
+									const index = this.typingUsers.indexOf( message.username );
+									this.typingUsers.splice( index, 1 );
 								}
 								
 
