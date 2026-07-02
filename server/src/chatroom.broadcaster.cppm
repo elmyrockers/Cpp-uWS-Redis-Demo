@@ -55,6 +55,7 @@ export namespace chatroom {
 					message["action"] = picojson::value(std::string("start_typing"));
 					message["username"] = picojson::value(ws->getUserData()->username);
 					std::string jsonMessage = picojson::value(message).serialize();
+					
 					ws->publish("chatroom", jsonMessage, uWS::OpCode::TEXT);
 			}
 			void stopTypingIndicator( auto *ws ) {}
