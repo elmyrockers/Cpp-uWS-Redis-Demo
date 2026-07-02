@@ -99,6 +99,7 @@
 						<div class="flex gap-3">
 							<input
 								x-model="input"
+								@input="startTypingIndicator"
 								type="text"
 								placeholder="Type a message..."
 								autofocus
@@ -113,17 +114,20 @@
 			document.addEventListener( 'alpine:init',()=>{
 				Alpine.data( 'app',()=>({
 					wsClient: {},
+					currentUser: '{{.Username}}',
 					onlineUsers: [],
 					typingUsers: [],
 					colors: {},
 					messages: [],
 					input: "",
+					isTyping: false,
+					typingTimeoutID: 0,
 					
 					init(){
-						this.typingUsers.push( 'Alia' );
-						this.typingUsers.push( 'Rosman' );
-						this.typingUsers.push( 'Elmyrockers' );
-						this.typingUsers.push( 'Ahmad' );
+						// this.typingUsers.push( 'Alia' );
+						// this.typingUsers.push( 'Rosman' );
+						// this.typingUsers.push( 'Elmyrockers' );
+						// this.typingUsers.push( 'Ahmad' );
 
 						// this.messages.push({
 						// 	id: 1,
@@ -206,6 +210,40 @@
 					addOnlineUser( username ) {
 						this.onlineUsers.push( username );
 						this.colors[ username ] = this.getRandomTextColor();
+					},
+					setStopTimer() {
+						this.typingTimeoutID = setTimeout(()=>{
+							this.isTyping = false;
+							this.stopTypingIndicator();
+						}, 3000 );
+					},
+					startTypingIndicator() {
+						// Only allow websocket request every 3 seconds of inactivity
+						// to reduce server load
+							if ( !this.isTyping ) {
+								this.isTyping = true;
+								this.setStopTimer();
+								
+								// Start typing indicator
+									//------------------
+									// this.typingUsers.push( 'elmyrockers' );
+									// console.log( 'startTypingIndicator:', this.input );
+									//------------------
+									this.wsClient.send( JSON.stringify({action:'start_typing'}) );
+									console.log( 'Start typing' )
+							} else {
+								clearTimeout( this.typingTimeoutID );
+								this.setStopTimer();
+							}
+					},
+					stopTypingIndicator() {
+						// console.log( 'Stop Typing Indicator' );
+						// console.log( 'Typing Users:', this.typingUsers );
+
+						// const index = this.typingUsers.indexOf( 'elmyrockers' );
+						// this.typingUsers.splice( index, 1 );
+						this.wsClient.send( JSON.stringify({action:'stop_typing'}) );
+						console.log( 'Stop typing' )
 					},
 					sendMessage() {
 						const message = {
