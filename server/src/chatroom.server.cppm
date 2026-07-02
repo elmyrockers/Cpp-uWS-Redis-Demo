@@ -2,6 +2,7 @@ module;
 #include <string>
 #include <print>
 #include <chrono>
+#include <picojson/picojson.h>
 #include <uwebsockets/App.h>
 
 export module chatroom:server;
@@ -44,6 +45,30 @@ export namespace chatroom {
 					// Connect the user and broadcast the list of connected users
 						broadcaster.connectUser(ws);
 						std::print("WebSocket connection opened for user: {}\n\n", ws->getUserData()->username);
+				};
+				behavior.message = [this](auto *ws, std::string_view msg, uWS::OpCode) {
+					std::print("Received message from user {}: {}\n", ws->getUserData()->username, msg);
+					// Parse JSON message
+						std::string err;
+						picojson::value parsedMessage;
+						err = picojson::parse(parsedMessage, std::string(msg));
+						if (!err.empty() || !parsedMessage.is<picojson::object>()) {
+							std::print("Invalid JSON: {}\n", err);
+							return;
+						}
+					// Get the action from the message
+						picojson::object obj = parsedMessage.get<picojson::object>();
+						std::string action = obj["action"].get<std::string>();
+						std::print("Action: {}\n", action);
+
+					// Broadcast based on the action
+						// Typing indicator actions
+							if(action == "start_typing") {
+								broadcaster.startTypingIndicator(ws);
+							} else if (action == "stop_typing") {
+								broadcaster.stopTypingIndicator(ws);
+							}
+							
 				};
 				behavior.close = [this](auto *ws, int code, std::string_view message) {
 					// Disconnect the user
