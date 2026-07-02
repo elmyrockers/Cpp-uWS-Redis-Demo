@@ -49,6 +49,7 @@ export namespace chatroom {
 
 			void sendMessageHistoryToUser( auto *ws ) {}
 			void sendMessageToAllUsers( auto *ws ) {}
-			void sendTypingIndicator( auto *ws ) {}
+			void startTypingIndicator( auto *ws ) {}
+			void stopTypingIndicator( auto *ws ) {}
 	};
 }
