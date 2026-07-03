@@ -216,7 +216,8 @@
 						this.wsClient.send( JSON.stringify(message) );
 						this.input = '';
 
-						console.log( message );
+						clearTimeout( this.typingTimeoutID );
+						this.isTyping = false;
 					},
 					wsConnect() {
 						this.wsClient = new WebSocket( "ws://localhost:9001?token={{.Token}}" );
@@ -231,7 +232,12 @@
 								console.log( message );
 
 							// Add new message
-								if ( message.action == 'message' ) this.messages.push( message );
+								if ( message.action == 'message' ) {
+									this.messages.push( message );
+									// Stop typing indicator from other clients
+										const index = this.typingUsers.indexOf( message.username );
+										if ( index >= 0 ) this.typingUsers.splice( index, 1 );
+								}
 
 							// List all of online users
 								else if ( message.action == 'online_users' ) {
