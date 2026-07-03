@@ -50,6 +50,9 @@ export namespace chatroom {
 			void sendMessageHistoryToUser( auto *ws ) {}
 			void sendMessageToAllUsers( auto *ws ) {}
 			void startTypingIndicator( auto *ws ) {
+				// Mark the user as typing
+					ws->getUserData()->isTyping = true;
+
 				// Broadcast start typing indicator to all clients except the sender
 					picojson::object message;
 					message["action"] = picojson::value(std::string("start_typing"));
@@ -59,6 +62,9 @@ export namespace chatroom {
 					ws->publish("chatroom", jsonMessage, uWS::OpCode::TEXT);
 			}
 			void stopTypingIndicator( auto *ws ) {
+				// Mark the user as not typing
+					ws->getUserData()->isTyping = false;
+
 				// Broadcast stop typing indicator to all clients except the sender
 					picojson::object message;
 					message["action"] = picojson::value(std::string("stop_typing"));
@@ -66,6 +72,21 @@ export namespace chatroom {
 					std::string jsonMessage = picojson::value(message).serialize();
 
 					ws->publish("chatroom", jsonMessage, uWS::OpCode::TEXT);
+			}
+			void stopTypingIndicatorOnClose( auto *ws ) {
+				// Allow broadcasting only if the user is currently typing
+					if (!ws->getUserData()->isTyping) return;
+
+				// Mark the user as not typing
+					ws->getUserData()->isTyping = false;
+
+				// Broadcast stop typing indicator to all clients
+					picojson::object message;
+					message["action"] = picojson::value(std::string("stop_typing"));
+					message["username"] = picojson::value(ws->getUserData()->username);
+					std::string jsonMessage = picojson::value(message).serialize();
+
+					app->publish("chatroom", jsonMessage, uWS::OpCode::TEXT);
 			}
 	};
 }
