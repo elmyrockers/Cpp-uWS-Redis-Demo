@@ -45,6 +45,7 @@ export namespace chatroom {
 				behavior.open = [this](auto *ws) {
 					// Connect the user and broadcast the list of connected users
 						broadcaster.connectUser(ws);
+						broadcaster.sendMessageHistoryToUser(ws);
 						std::print("WebSocket connection opened for user: {}\n\n", ws->getUserData()->username);
 				};
 				behavior.message = [this](auto *ws, std::string_view msg, uWS::OpCode) {
