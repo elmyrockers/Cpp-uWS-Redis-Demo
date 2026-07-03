@@ -66,6 +66,9 @@ export namespace chatroom {
 				// Broadcast the message to all clients
 					ws->publish("chatroom", jsonMessage, uWS::OpCode::TEXT);
 					ws->send(jsonMessage, uWS::OpCode::TEXT);
+
+				// Mark the user as not typing - because it's done sending the message
+					ws->getUserData()->isTyping = false;
 			}
 			void startTypingIndicator( auto *ws ) {
 				// Mark the user as typing
