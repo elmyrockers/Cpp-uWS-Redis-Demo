@@ -68,8 +68,14 @@ export namespace chatroom {
 								broadcaster.startTypingIndicator(ws);
 							} else if (action == "stop_typing") {
 								broadcaster.stopTypingIndicator(ws);
+						// Message action
+							} else if (action == "message") {
+								std::string messageContent = obj["content"].get<std::string>();
+								broadcaster.sendMessageToAllUsers(ws, messageContent);
+						// Unknown action
+							} else {
+								std::print("Unknown action: {}\n", action);
 							}
-							
 				};
 				behavior.close = [this](auto *ws, int code, std::string_view message) {
 					// Stop typing indicator and disconnect the user
