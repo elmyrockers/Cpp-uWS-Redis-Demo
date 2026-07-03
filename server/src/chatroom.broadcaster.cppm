@@ -1,8 +1,12 @@
 module;
 #include <unordered_set>
 #include <string>
+#include <print>
+#include <chrono>
 #include <picojson/picojson.h>
 #include <uwebsockets/App.h>
+#include <sw/redis++/redis++.h>
+
 
 export module chatroom:broadcaster;
 
@@ -10,6 +14,7 @@ export namespace chatroom {
 	class Broadcaster {
 		private:
 			uWS::App *app = nullptr;
+			sw::redis::Redis redis;
 			std::unordered_set<std::string> connectedUsers;
 			std::string getUsersJson() {
 				picojson::array users;
@@ -23,7 +28,9 @@ export namespace chatroom {
 				return jsonMessage;
 			}
 		public:
-			Broadcaster() = default;
+			Broadcaster() : redis("tcp://localhost:6379") {
+
+			}
 			void setApp(uWS::App *app) {
 				this->app = app;
 			}
@@ -52,6 +59,15 @@ export namespace chatroom {
 				// Get the current timestamp
 					auto now = std::chrono::system_clock::now().time_since_epoch();
 					auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now).count();
+				
+				// Store the message into redis
+					std::vector<std::pair<std::string, std::string>> attrs = {
+						{"connection_id", ws->getUserData()->connectionId},
+						{"username",      ws->getUserData()->username},
+						{"content",       messageContent},
+						{"timestamp",     std::to_string(timestamp)}
+					};
+					redis.xadd("chatroom:messages", "*", attrs.begin(), attrs.end());
 
 				// Build the message JSON
 					picojson::object message;
