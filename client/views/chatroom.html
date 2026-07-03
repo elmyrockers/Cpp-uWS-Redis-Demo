@@ -247,7 +247,6 @@
 
 						this.wsClient.onopen = () => {
 							console.log("Connected!");
-							this.wsClient.send( "Hello. This is a message from websocket client!" );
 						};
 
 						this.wsClient.onmessage = (event) => {
