@@ -14,6 +14,7 @@ export namespace chatroom {
 		std::string username;
 		std::string connectionId;
 		std::chrono::system_clock::time_point exp;
+		bool isTyping = false;
 	};
 	class Server {
 		uWS::App app;
@@ -71,8 +72,10 @@ export namespace chatroom {
 							
 				};
 				behavior.close = [this](auto *ws, int code, std::string_view message) {
-					// Disconnect the user
+					// Stop typing indicator and disconnect the user
+						broadcaster.stopTypingIndicatorOnClose(ws);
 						broadcaster.disconnectUser(ws);
+						
 						std::print("WebSocket connection closed for user: {}\nCode: {}\nMessage: {}\n\n", ws->getUserData()->username, code, message);
 				};
 			}
