@@ -48,7 +48,25 @@ export namespace chatroom {
 			}
 
 			void sendMessageHistoryToUser( auto *ws ) {}
-			void sendMessageToAllUsers( auto *ws ) {}
+			void sendMessageToAllUsers( auto *ws, std::string messageContent ) {
+				// Get the current timestamp
+					auto now = std::chrono::system_clock::now().time_since_epoch();
+					auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now).count();
+
+				// Build the message JSON
+					picojson::object message;
+					message["action"] = picojson::value(std::string("message"));
+					message["connection_id"] = picojson::value(ws->getUserData()->connectionId);
+					message["username"] = picojson::value(ws->getUserData()->username);
+					message["content"] = picojson::value(messageContent);
+					message["timestamp"] = picojson::value((double)timestamp);
+
+					std::string jsonMessage = picojson::value(message).serialize();
+
+				// Broadcast the message to all clients
+					ws->publish("chatroom", jsonMessage, uWS::OpCode::TEXT);
+					ws->send(jsonMessage, uWS::OpCode::TEXT);
+			}
 			void startTypingIndicator( auto *ws ) {
 				// Mark the user as typing
 					ws->getUserData()->isTyping = true;
