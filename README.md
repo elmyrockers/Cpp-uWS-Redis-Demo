@@ -20,11 +20,10 @@ A blazing-fast **C++ realtime chatroom demo** built with the powerful **uWebSock
 ## Security Notes
 
 ### JWT Authentication
-> **Demo only** — passing JWT as a query parameter is intentional 
-> for local development demonstration purposes only.
+> **Demo only** — passing JWT as a query parameter is intentional for local development demonstration purposes only.
 
-The WebSocket connection uses JWT for authentication:
-ws://localhost:9001?token=<jwt>
+The WebSocket connection uses JWT for authentication:<br>
+`ws://localhost:9001?token=<jwt>`
 
 This approach is **not recommended for production** as the token is exposed in server logs, proxy logs, and browser DevTools network tab.
 
