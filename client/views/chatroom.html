@@ -10,7 +10,7 @@
 
 	<body class="h-screen bg-slate-100">
 		<div x-data="app" class="flex h-full">
-
+			<div x-ref="token" data-token="{{.Token}}"></div>
 			<!-- ===================== SIDEBAR ===================== -->
 			<aside class="w-72 bg-slate-900 text-white flex flex-col">
 				<!-- Header -->
@@ -211,7 +211,8 @@
 						this.isTyping = false;
 					},
 					wsConnect() {
-						this.wsClient = new WebSocket( "ws://localhost:9001?token={{.Token}}" );
+						const token = this.$refs.token.getAttribute( 'data-token' );
+						this.wsClient = new WebSocket( `ws://localhost:9001?token=${token}` );
 						if ( this.wsClient.readyState == WebSocket.CONNECTING ) console.log("Still connecting...");
 
 						this.wsClient.onopen = () => {
