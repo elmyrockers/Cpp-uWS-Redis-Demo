@@ -30,16 +30,16 @@ The WebSocket connection uses JWT for authentication:<br>
 > **Demo only** — passing JWT as a query parameter is intentional for local development and demo purpose only.
 
 This approach is **not recommended for production** as the token is exposed in server logs, proxy logs, and browser DevTools network tab,
-which will increase security risk
+which will increase security risk.
 
 ### Production Approach
 In production, authentication would flow as follows:
 
-1. User logs in - Golang http server verifies credentials
-2. Golang http server sets **HttpOnly cookie** containing the JWT
-3. Browser stores cookie — JavaScript cannot read it
-4. Browser opens WebSocket connection to C++ websocket server
-5. Browser automatically sends cookie in WS handshake headers
-6. C++ websocket server reads and verifies JWT from cookie header directly
+>1. User logs in - Golang http server verifies credentials
+>2. Golang http server sets **HttpOnly cookie** containing the JWT
+>3. Browser stores cookie — JavaScript cannot read it
+>4. Browser opens WebSocket connection to C++ websocket server
+>5. Browser automatically sends cookie in WS handshake headers
+>6. C++ websocket server reads and verifies JWT from cookie header directly
 
 The token is passed **server-to-server via HttpOnly cookie** — never exposed to JavaScript, never visible in URLs or logs.
