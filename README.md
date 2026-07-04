@@ -29,6 +29,6 @@ This approach is **not recommended for production** as the token is exposed in s
 
 ### Production Approach
 In production, this would be implemented using:
-- **HttpOnly cookies** set by the Golang server after login
-- **Nginx reverse proxy** to serve both Golang and C++ servers under the same domain and port
-- Browser automatically sends the cookie in the WebSocket handshake headers — no token in the URL, no JS exposure
+>- **HttpOnly cookies** set by the Golang server after login
+>- **Nginx reverse proxy** to serve both Golang and C++ servers under the same domain and port
+>- Browser automatically sends the cookie in the WebSocket handshake headers — no token in the URL, no JS exposure
