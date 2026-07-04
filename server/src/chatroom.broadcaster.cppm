@@ -54,7 +54,40 @@ export namespace chatroom {
 					app->publish("chatroom", getUsersJson(), uWS::OpCode::TEXT);
 			}
 
-			void sendMessageHistoryToUser( auto *ws ) {}
+			void sendMessageHistoryToUser(auto *ws) {
+				// Fetch last 200 messages from Redis
+					using Item = std::pair<std::string, std::vector<std::pair<std::string, std::string>>>;
+					std::vector<Item> history;
+					redis.xrevrange("chatroom:messages", "+", "-", 200, std::back_inserter(history));
+
+				// Build the message history JSON
+					picojson::array messages;
+					for (auto item = history.rbegin(); item != history.rend(); ++item) {
+						auto &fields = item->second;
+
+						// Convert fields vector to map for easy access
+						std::unordered_map<std::string, std::string> data;
+						for (auto &[key, value] : fields) {
+							data[key] = value;
+						}
+
+						picojson::object message;
+						message["id"]            = picojson::value(item->first);
+						message["connection_id"] = picojson::value(data["connection_id"]);
+						message["username"]      = picojson::value(data["username"]);
+						message["content"]       = picojson::value(data["content"]);
+						message["timestamp"]     = picojson::value(std::stod(data["timestamp"]));
+						messages.push_back(picojson::value(message));
+					}
+
+				picojson::object historyMessage;
+				historyMessage["action"]   = picojson::value(std::string("message_history"));
+				historyMessage["messages"] = picojson::value(messages);
+				std::string jsonHistoryMessage = picojson::value(historyMessage).serialize();
+
+				ws->send(jsonHistoryMessage, uWS::OpCode::TEXT);
+				std::print("Sent message history to: {}\nMessage History: {}\n", ws->getUserData()->username, jsonHistoryMessage);
+			}
 			void sendMessageToAllUsers( auto *ws, const std::string &messageContent ) {
 				// Get the current timestamp
 					auto now = std::chrono::system_clock::now().time_since_epoch();
