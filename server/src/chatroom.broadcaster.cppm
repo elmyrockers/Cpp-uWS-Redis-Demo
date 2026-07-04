@@ -55,7 +55,7 @@ export namespace chatroom {
 			}
 
 			void sendMessageHistoryToUser( auto *ws ) {}
-			void sendMessageToAllUsers( auto *ws, std::string messageContent ) {
+			void sendMessageToAllUsers( auto *ws, const std::string &messageContent ) {
 				// Get the current timestamp
 					auto now = std::chrono::system_clock::now().time_since_epoch();
 					auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now).count();
@@ -67,7 +67,7 @@ export namespace chatroom {
 						{"content",       messageContent},
 						{"timestamp",     std::to_string(timestamp)}
 					};
-					redis.xadd("chatroom:messages", "*", attrs.begin(), attrs.end());
+					redis.xadd("chatroom:messages", "*", attrs.begin(), attrs.end(), 1000);
 
 				// Build the message JSON
 					picojson::object message;
