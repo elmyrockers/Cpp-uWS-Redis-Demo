@@ -247,6 +247,14 @@
 									}
 								}
 
+							// list all of messages from history
+								else if ( message.action == "message_history" ) {
+									console.log( 'Message history: ', message.messages );
+									for(msg of message.messages) {
+										this.messages.push( msg );
+									}
+								}
+
 							// Start and stop typing indicator
 								else if ( message.action == 'start_typing' ) this.typingUsers.push( message.username );
 								else if ( message.action == 'stop_typing' ) {
