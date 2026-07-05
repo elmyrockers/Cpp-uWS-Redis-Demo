@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.28)
 project(cpp-uws-redis-demo LANGUAGES CXX)
 set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++")
 set(CMAKE_CXX_FLAGS "-nostdinc++ -isystem /usr/include/c++/14 -isystem /usr/include/x86_64-linux-gnu/c++/14")
+# set(CMAKE_CXX_FLAGS "-stdlib=libc++")
+# set(CMAKE_EXE_LINKER_FLAGS "-stdlib=libc++ -lc++abi")
 
 # Define executable
 	add_executable(cpp-uws-redis-demo)
