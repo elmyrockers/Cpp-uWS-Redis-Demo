@@ -14,7 +14,7 @@ A blazing-fast **C++ realtime chat demo** built with the powerful **uWebSockets 
 
 ## Features
 
-#### WebSocket Server (C++)
+#### WebSocket Server (C++ µWebSockets)
 >- **Real-time messaging** - broadcast messages to all connected clients instantly
 >- **JWT authentication** - every connection is verified via RS256 JWT token on upgrade
 >- **Message history** - last 200 messages fetched from Redis Stream on connect
