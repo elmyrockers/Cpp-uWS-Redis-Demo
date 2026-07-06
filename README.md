@@ -1,5 +1,8 @@
 # Cpp-uWS-Redis-Demo
 A blazing-fast **C++ realtime chat demo** built with the powerful **µWebSockets library** and **Redis** for **extreme performance and scalability**.
+<div align="center">
+	<img src="client/public/img/livechat.png"/>
+</div>
 
 ## Technology Stack
 
