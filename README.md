@@ -11,17 +11,17 @@ A blazing-fast **C++ realtime chat demo** built with the powerful **uWebSockets 
 >- **Typing indicators** — real-time start/stop typing broadcast to all clients
 >- **Redis Stream storage** — messages stored persistently with auto-trim (last 1000 entries)
 >
->### HTTP Server (Golang Fiber)
+### HTTP Server (Golang Fiber)
 >- **Web frontend** — serves HTML/JS chat interface
 >- **JWT generation** — signs JWT token with RS256 private key on login
 >- **Static assets** — serves JS and images
 >
->### Browser (WebSocket Client)
+### Browser (WebSocket Client)
 >- **Real-time chat UI** — connects directly to C++ WebSocket server
 >- **JWT token** — obtained from Golang http server on login, passed to WebSocket connection
 >- **Message rendering** — displays chat messages, typing indicators and online users in real-time
 >
->### Infrastructure
+### Infrastructure
 >- **Docker** — both services containerized and ready to run
 >- **Docker Compose** — single command to start all services
 >- **Redis** — in-memory message store and stream
