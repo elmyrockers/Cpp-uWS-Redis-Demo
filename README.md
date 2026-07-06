@@ -51,7 +51,7 @@ A blazing-fast **C++ realtime chat demo** built with the powerful **µWebSockets
 
 ## Security Notes
 
-### JWT Authentication
+#### JWT Authentication
 The WebSocket connection within this demo project uses JWT for authentication:<br>
 `ws://localhost:9001?token=<jwt>`
 
@@ -60,7 +60,7 @@ The WebSocket connection within this demo project uses JWT for authentication:<b
 This approach is **not recommended for production** as the token is exposed in server logs, proxy logs, and browser DevTools network tab,
 which will increase security risk.
 
-### Production Approach
+#### Production Approach
 In production, authentication would flow as follows:
 
 >1. User logs in - Golang http server verifies credentials
