@@ -19,11 +19,11 @@ services:
     environment:
       - REDIS_URL=tcp://redis:6379
 
-  ws-client:
+  http-server:
     build:
       context: ./client
       dockerfile: dockerfile
-    container_name: ws-client
+    container_name: http-server
     ports:
       - "3000:3000"
     depends_on:
