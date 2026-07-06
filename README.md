@@ -30,7 +30,7 @@ A blazing-fast **C++ realtime chat demo** built with the powerful **µWebSockets
 >- **JWT generation** - signs JWT token with RS256 private key on login
 >- **Static assets** - serves JS and images
 >
-#### Web UI (WebSocket Client)
+#### WebSocket Client (Web UI)
 >- **Real-time chat UI** - connects directly to C++ WebSocket server
 >- **JWT token** - obtained from Golang http server on login, passed to WebSocket connection
 >- **Message rendering** - displays chat messages, typing indicators and online users in real-time
