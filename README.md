@@ -45,8 +45,8 @@ A blazing-fast **C++ realtime chat demo** built with the powerful **µWebSockets
 
 ## Screenshots
 
-![Index page](/chat1.jpg)
-![Chatroom page](/chat2.jpg)
+![Index page](/img/chat1.jpg)
+![Chatroom page](/img/chat2.jpg)
 
 
 
