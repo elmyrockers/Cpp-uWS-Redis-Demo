@@ -13,7 +13,7 @@ echo 🔌 ws://localhost:9001
 echo.
 echo ▶ Starting...
 echo.
-wsl bash -c "cd $(wslpath '%cd%') && docker compose up --build"
+wsl bash -c "cd $(wslpath '%cd%') && docker compose up"
 echo.
 echo [INFO] Stopped.
 pause
