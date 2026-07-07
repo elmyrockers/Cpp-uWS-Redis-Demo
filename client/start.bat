@@ -4,7 +4,7 @@ title Golang HTTP Server
 color 0F
 echo.
 echo ╔══════════════════════════════════════╗
-echo ║       Golang HTTP Server        ║
+echo ║          Golang HTTP Server          ║
 echo ╚══════════════════════════════════════╝
 echo.
 echo 📁 %cd%
