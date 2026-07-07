@@ -45,6 +45,7 @@ A blazing-fast **C++ realtime chat demo** built with the powerful **µWebSockets
 
 ## Screenshots
 
+![Docker Compose](/img/docker-compose-running.jpg)
 ![Index page](/img/chat1.jpg)
 ![Chatroom page](/img/chat2.jpg)
 
