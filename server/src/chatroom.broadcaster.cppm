@@ -28,9 +28,8 @@ export namespace chatroom {
 				return jsonMessage;
 			}
 		public:
-			Broadcaster() : redis("tcp://localhost:6379") {
-
-			}
+			// Broadcaster() : redis("tcp://localhost:6379") {
+			Broadcaster() : redis("tcp://redis:6379") {}
 			void setApp(uWS::App *app) {
 				this->app = app;
 			}
