@@ -1,2 +1,2 @@
 @echo off
-wsl bash -c "cd $(wslpath '%cd%') && docker-compose down"
+wsl bash -c "cd $(wslpath '%cd%') && docker compose down"
